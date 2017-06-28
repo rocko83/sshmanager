@@ -51,8 +51,8 @@ function Pingar() {
 		$CMD_FIGLET -f $ESTILO3 OFF-LINE
 		$CMD_FIGLET -f $ESTILO1 $1
 		$CMD_GREP $1 /etc/hosts
-		$CMD_SLEEP 4
-		exit 1	
+		#$CMD_SLEEP 4
+		#exit 1	
 	fi
 }
 function Escolha_usuario() {
