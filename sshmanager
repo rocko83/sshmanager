@@ -42,7 +42,7 @@ function Tempfunc() {
 	esac
 }
 function Pingar() {
-	$CMD_PING -c 1 $1 > /dev/null
+	$CMD_PING -w 2 -c 1 $1 > /dev/null
 	retorno=$?
 	if [[ $retorno -eq 0 ]]
 	then
@@ -182,10 +182,18 @@ function Infinito() {
 function conectar() {
 	Pingar $2
         $CMD_FIGLET -f $ESTILO1 $2
-        $CMD_SSH -XC -c blowfish-cbc,arcfour $1@$2 | $CMD_TEE -i $LOGPATH/$HORA.$2.log
+	while true
+	do
+		date
+		$CMD_SSH -XC -c blowfish-cbc,arcfour -o ConnectTimeout=3 $1@$2
+		sleep 1
+	done| \
+	$CMD_TEE -i $LOGPATH/$HORA.$2.log
+        #$CMD_SSH -XC -c blowfish-cbc,arcfour $1@$2 | $CMD_TEE -i $LOGPATH/$HORA.$2.log
 }
 case $# in
 0)
+	eval "$(ssh-agent)"
 	ssh-add -l | grep -w "/home/damato/.ssh/id_rsa" > /dev/null
 	retorno=$?
 	if [ $retorno -ne 0 ]
