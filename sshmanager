@@ -68,6 +68,12 @@ function Escolha_usuario() {
 	o)
 	        export USUARIO=operador
 	        ;;
+	d)
+		export USUARIO=damato
+		;;
+	n)
+		export USUARIO=netshoes
+		;;
 	esac
 }
 function menu() {
@@ -185,7 +191,8 @@ function conectar() {
 	while true
 	do
 		date
-		$CMD_SSH -XC -c blowfish-cbc,arcfour -o ConnectTimeout=3 $1@$2
+		$CMD_SSH -Y -A -o ConnectTimeout=3 $1@$2
+		#$CMD_SSH -XC -c blowfish-cbc,arcfour -o ConnectTimeout=3 $1@$2
 		sleep 1
 	done| \
 	$CMD_TEE -i $LOGPATH/$HORA.$2.log
